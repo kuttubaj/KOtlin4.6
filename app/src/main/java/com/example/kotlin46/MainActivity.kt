@@ -1,7 +1,6 @@
 package com.example.kotlin46
 
 import android.Manifest
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -35,13 +34,7 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity, Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-
-                val getContent =
-                    registerForActivityResult(ActivityResultContracts.GetContent()){
-                            uri->
-                        binding.referat.setImageURI(uri)
-                    }
-                }
+                getContent.launch("image/*")
 
                 Log.e("permision", "Разрешение есть")
             } else {
@@ -54,6 +47,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            binding.referat.setImageURI(uri)
+        }
 
     private fun createDialog() {
         AlertDialog.Builder(this).setTitle("Разрешение на чтение данных")
